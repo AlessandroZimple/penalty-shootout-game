@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>penalty-shootout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+        }
+
+        #unity-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        #loading-bar {
+            width: 100%;
+            text-align: center;
+            color: white;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="unity-container">
+        <canvas id="unity-canvas"></canvas>
+        <div id="loading-bar">Loading...</div>
+    </div>
+
+    <script>
+        const buildUrl = "Build";
+        const loaderUrl = buildUrl + "/v0.1.loader.js";
+        const config = {
+            dataUrl: buildUrl + "/v0.1.data.unityweb",
+            frameworkUrl: buildUrl + "/v0.1.framework.js.unityweb",
+            codeUrl: buildUrl + "/v0.1.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "ZimpleGames",
+            productName: "penalty-shootout",
+            productVersion: "0.1",
+        };
+
+        const canvas = document.querySelector("#unity-canvas");
+        const loadingBar = document.querySelector("#loading-bar");
+
+        let unityInstance = null;
+
+        const script = document.createElement("script");
+        script.src = loaderUrl;
+        script.onload = () => {
+            createUnityInstance(canvas, config, (progress) => {
+                loadingBar.innerHTML = "Loading... " + Math.floor(progress * 100) + "%";
+            }).then((instance) => {
+                unityInstance = instance;
+                loadingBar.style.display = "none";
+                sendUrlIdToUnity(); // <-- aquí se manda el ID
+            });
+        };
+        document.body.appendChild(script);
+
+        function sendUrlIdToUnity() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get("id");
+            console.log("ID RECEIVED => " + id);
+            if (id && unityInstance) {
+                // unityInstance.SendMessage("Manager-Api", "RecibirIdDesdeURL", id);
+            }
+        }
+    </script>
+</body>
+
+</html>
