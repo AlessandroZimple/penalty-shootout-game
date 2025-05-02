@@ -86,10 +86,12 @@
             align-items: center;
             justify-content: end;
             pointer-events: none;
+            padding-bottom: 50px;
+            gap: 4px;
         }
 
         #progress-bar {
-            width: 50%;
+            width: 70%;
             height: 20px;
             background-color: rgba(120, 223, 13, 0.2);
             border: 1px solid #fff;
@@ -142,11 +144,11 @@
 
     <script>
         const buildUrl = "Build";
-        const loaderUrl = buildUrl + "/v0.5-1.loader.js";
+        const loaderUrl = buildUrl + "/v0.5-2.loader.js";
         const config = {
-            dataUrl: buildUrl + "/v0.5-1.data.unityweb",
-            frameworkUrl: buildUrl + "/v0.5-1.framework.js.unityweb",
-            codeUrl: buildUrl + "/v0.5-1.wasm.unityweb",
+            dataUrl: buildUrl + "/v0.5-2.data.unityweb",
+            frameworkUrl: buildUrl + "/v0.5-2.framework.js.unityweb",
+            codeUrl: buildUrl + "/v0.5-2.wasm.unityweb",
             streamingAssetsUrl: "StreamingAssets",
             companyName: "ZimpleGames",
             productName: "penalty-shootout",
