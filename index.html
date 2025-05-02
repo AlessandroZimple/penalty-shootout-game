@@ -6,6 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>penalty-shootout</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
 
     <style>
         html,
@@ -74,13 +75,13 @@
             object-fit: cover;
         }
 
-        #loading-bar {
+        /* #loading-bar {
             position: absolute;
             z-index: 20;
-            top: 70%;
+            top: 90%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 60%;
+            width: 70%;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -93,17 +94,17 @@
         #progress-container {
             position: relative;
             width: 100%;
-            height: 24px;
-            background-color: rgba(120, 223, 13, 0.2);
+            height: 20px;
+            background-color: rgba(120, 223, 13, 0.1);
             border-radius: 12px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         #progress-bar-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #78DF0D, #05de67);
+            background: linear-gradient(90deg, #78DF0D, #008e6b);
             transition: width 0.4s ease;
         }
 
@@ -125,6 +126,67 @@
         #loading-text {
             color: #fff;
             font-size: medium;
+        } */
+
+        #loading-bar-wrapper {
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+            text-align: center;
+            z-index: 10;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        #loading-text {
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px black;
+        }
+
+        #loading-bar {
+            position: relative;
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            overflow: hidden;
+        }
+
+        #loading-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #78DF0D, #a4e034);
+            transition: width 0.3s ease;
+            clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+        }
+
+        #loading-glow {
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.5), transparent);
+            animation: shine 1.5s infinite linear;
+        }
+
+        @keyframes shine {
+            from {
+                left: -50%;
+            }
+
+            to {
+                left: 100%;
+            }
         }
     </style>
 </head>
@@ -149,23 +211,31 @@
     <!-- Unity container -->
     <div id="unity-container">
         <canvas id="unity-canvas"></canvas>
-        <div id="loading-bar" style="display: none;">
+        <!-- <div id="loading-bar" style="display: none;">
             <div id="progress-container">
                 <div id="progress-bar-fill"></div>
                 <span id="progress-text">0%</span>
             </div>
             <strong id="loading-text">Cargando...</strong>
+        </div> -->
+        <div id="loading-bar-wrapper">
+            <div id="loading-text">LOADING...</div>
+            <div id="loading-bar">
+                <div id="loading-fill">
+                    <div id="loading-glow"></div>
+                </div>
+            </div>
         </div>
         <!-- <div id="loading-bar">Loading...</div> -->
     </div>
 
     <script>
         const buildUrl = "Build";
-        const loaderUrl = buildUrl + "/v0.5-3.loader.js";
+        const loaderUrl = buildUrl + "/v0.5-4.loader.js";
         const config = {
-            dataUrl: buildUrl + "/v0.5-3.data.unityweb",
-            frameworkUrl: buildUrl + "/v0.5-3.framework.js.unityweb",
-            codeUrl: buildUrl + "/v0.5-3.wasm.unityweb",
+            dataUrl: buildUrl + "/v0.5-4.data.unityweb",
+            frameworkUrl: buildUrl + "/v0.5-4.framework.js.unityweb",
+            codeUrl: buildUrl + "/v0.5-4.wasm.unityweb",
             streamingAssetsUrl: "StreamingAssets",
             companyName: "ZimpleGames",
             productName: "penalty-shootout",
@@ -207,9 +277,10 @@
             script.src = loaderUrl;
             script.onload = () => {
                 createUnityInstance(canvas, config, (progress) => {
+                    // document.querySelector("#progress-bar-fill").style.width = percent + "%";
+                    // document.querySelector("#progress-text").textContent = percent + "%";
                     const percent = Math.floor(progress * 100);
-                    document.querySelector("#progress-bar-fill").style.width = percent + "%";
-                    document.querySelector("#progress-text").textContent = percent + "%";
+                    document.getElementById("loading-fill").style.width = percent + "%";
                 }).then((instance) => {
                     unityInstance = instance;
                     // Ocultar video de fondo y barra de carga al finalizar
