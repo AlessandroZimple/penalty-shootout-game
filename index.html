@@ -85,6 +85,7 @@
             text-align: center;
             z-index: 10;
             font-family: 'Orbitron', sans-serif;
+            flex-direction: "column";
         }
 
         #loading-text {
@@ -137,6 +138,48 @@
                 left: 100%;
             }
         }
+
+        #loading-edge-shine {
+            position: absolute;
+            top: 0;
+            right: -8px;
+            width: 16px;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+            pointer-events: none;
+            animation: shine-pulse 1s infinite ease-in-out;
+            mix-blend-mode: screen;
+        }
+
+        @keyframes shine-pulse {
+
+            0%,
+            100% {
+                opacity: 0.7;
+                transform: scaleY(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scaleY(1.3);
+            }
+        }
+
+        #final-flare {
+            position: absolute;
+            top: 50%;
+            right: -15px;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, transparent 80%);
+            border-radius: 50%;
+            transform: translateY(-50%) scale(0);
+            pointer-events: none;
+            opacity: 0;
+            mix-blend-mode: screen;
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+            z-index: 2;
+        }
     </style>
 </head>
 
@@ -165,6 +208,8 @@
             <div id="loading-bar">
                 <div id="loading-fill">
                     <div id="loading-glow"></div>
+                    <div id="loading-edge-shine"></div>
+                    <div id="final-flare"></div>
                 </div>
             </div>
         </div>
@@ -173,11 +218,11 @@
 
     <script>
         const buildUrl = "Build";
-        const loaderUrl = buildUrl + "/v0.5-5.loader.js";
+        const loaderUrl = buildUrl + "/v0.5-7.loader.js";
         const config = {
-            dataUrl: buildUrl + "/v0.5-5.data.unityweb",
-            frameworkUrl: buildUrl + "/v0.5-5.framework.js.unityweb",
-            codeUrl: buildUrl + "/v0.5-5.wasm.unityweb",
+            dataUrl: buildUrl + "/v0.5-7.data.unityweb",
+            frameworkUrl: buildUrl + "/v0.5-7.framework.js.unityweb",
+            codeUrl: buildUrl + "/v0.5-7.wasm.unityweb",
             streamingAssetsUrl: "StreamingAssets",
             companyName: "ZimpleGames",
             productName: "penalty-shootout",
@@ -219,8 +264,6 @@
             script.src = loaderUrl;
             script.onload = () => {
                 createUnityInstance(canvas, config, (progress) => {
-                    // document.querySelector("#progress-bar-fill").style.width = percent + "%";
-                    // document.querySelector("#progress-text").textContent = percent + "%";
                     const percent = Math.floor(progress * 100);
                     document.getElementById("loading-fill").style.width = percent + "%";
                 }).then((instance) => {
@@ -228,6 +271,7 @@
                     // Ocultar video de fondo y barra de carga al finalizar
                     loadingVideoContainer.style.display = "none";
                     loadingBar.style.display = "none";
+                    document.getElementById("loading-edge-shine").style.display = "none";
                     sendUrlIdToUnity();
                 });
             };
