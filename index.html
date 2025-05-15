@@ -139,7 +139,7 @@
             }
         }
 
-        #loading-edge-shine {
+        /* #loading-edge-shine {
             position: absolute;
             top: 0;
             right: -8px;
@@ -179,7 +179,7 @@
             mix-blend-mode: screen;
             transition: transform 0.5s ease-out, opacity 0.5s ease-out;
             z-index: 2;
-        }
+        } */
     </style>
 </head>
 
@@ -208,8 +208,8 @@
             <div id="loading-bar">
                 <div id="loading-fill">
                     <div id="loading-glow"></div>
-                    <div id="loading-edge-shine"></div>
-                    <div id="final-flare"></div>
+                    <!-- <div id="loading-edge-shine"></div> -->
+                    <!-- <div id="final-flare"></div> -->
                 </div>
             </div>
         </div>
@@ -218,11 +218,11 @@
 
     <script>
         const buildUrl = "Build";
-        const loaderUrl = buildUrl + "/v0.5-7.loader.js";
+        const loaderUrl = buildUrl + "/v0.5-8.loader.js";
         const config = {
-            dataUrl: buildUrl + "/v0.5-7.data.unityweb",
-            frameworkUrl: buildUrl + "/v0.5-7.framework.js.unityweb",
-            codeUrl: buildUrl + "/v0.5-7.wasm.unityweb",
+            dataUrl: buildUrl + "/v0.5-8.data.unityweb",
+            frameworkUrl: buildUrl + "/v0.5-8.framework.js.unityweb",
+            codeUrl: buildUrl + "/v0.5-8.wasm.unityweb",
             streamingAssetsUrl: "StreamingAssets",
             companyName: "ZimpleGames",
             productName: "penalty-shootout",
@@ -271,7 +271,6 @@
                     // Ocultar video de fondo y barra de carga al finalizar
                     loadingVideoContainer.style.display = "none";
                     loadingBar.style.display = "none";
-                    document.getElementById("loading-edge-shine").style.display = "none";
                     sendUrlIdToUnity();
                 });
             };
