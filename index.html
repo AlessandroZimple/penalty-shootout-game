@@ -218,15 +218,15 @@
 
     <script>
         const buildUrl = "Build";
-        const loaderUrl = buildUrl + "/v0.9.loader.js";
+        const loaderUrl = buildUrl + "/v0.10.loader.js";
         const config = {
-            dataUrl: buildUrl + "/v0.9.data.unityweb",
-            frameworkUrl: buildUrl + "/v0.9.framework.js.unityweb",
-            codeUrl: buildUrl + "/v0.9.wasm.unityweb",
+            dataUrl: buildUrl + "/v0.10.data.unityweb",
+            frameworkUrl: buildUrl + "/v0.10.framework.js.unityweb",
+            codeUrl: buildUrl + "/v0.10.wasm.unityweb",
             streamingAssetsUrl: "StreamingAssets",
             companyName: "ZimpleGames",
             productName: "penalty-shootout",
-            productVersion: "0.9",
+            productVersion: "0.10",
         };
 
         const canvas = document.querySelector("#unity-canvas");
@@ -283,7 +283,7 @@
             if (!id || id.trim() === "") {
                 id = "no_player_id_provided"; 
             }
-            
+          
             console.log("ID RECEIVED => " + id);
             if (unityInstance) {
                 unityInstance.SendMessage("ApiManager", "GetPlayerIdEncrypted", id);
