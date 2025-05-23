@@ -279,7 +279,11 @@
 
         function sendUrlIdToUnity() {
             const params = new URLSearchParams(window.location.search);
-            const id = params.get("player_id") || "no_player_id_provided";
+            let id = params.get("player_id");
+            if (!id || id.trim() === "") {
+                id = "no_player_id_provided"; 
+            }
+            
             console.log("ID RECEIVED => " + id);
             if (unityInstance) {
                 unityInstance.SendMessage("ApiManager", "GetPlayerIdEncrypted", id);
