@@ -283,7 +283,7 @@
             if (!id || id.trim() === "") {
                 id = "no_player_id_provided"; 
             }
-
+          
             console.log("ID RECEIVED => " + id);
             if (unityInstance) {
                 unityInstance.SendMessage("ApiManager", "GetPlayerIdEncrypted", id);
