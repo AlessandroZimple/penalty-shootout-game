@@ -218,15 +218,15 @@
 
     <script>
         const buildUrl = "Build";
-        const loaderUrl = buildUrl + "/v0.10.loader.js";
+        const loaderUrl = buildUrl + "/v0.11.loader.js";
         const config = {
-            dataUrl: buildUrl + "/v0.10.data.unityweb",
-            frameworkUrl: buildUrl + "/v0.10.framework.js.unityweb",
-            codeUrl: buildUrl + "/v0.10.wasm.unityweb",
+            dataUrl: buildUrl + "/v0.11.data.unityweb",
+            frameworkUrl: buildUrl + "/v0.11.framework.js.unityweb",
+            codeUrl: buildUrl + "/v0.11.wasm.unityweb",
             streamingAssetsUrl: "StreamingAssets",
             companyName: "ZimpleGames",
             productName: "penalty-shootout",
-            productVersion: "0.10",
+            productVersion: "0.11",
         };
 
         const canvas = document.querySelector("#unity-canvas");
@@ -278,12 +278,26 @@
         }
 
         function sendUrlIdToUnity() {
-            const params = new URLSearchParams(window.location.search);
-            let id = params.get("player_id");
-            if (!id || id.trim() === "") {
+            let id = "";
+
+            // Se usa solo cuando viene bien el param en la url player_id=encrypted_id
+            // const params = new URLSearchParams(window.location.search);
+            // id = params.get("player_id");
+            // if (!id || id.trim() === "") {
+            //     id = "no_player_id_provided"; 
+            // }
+
+            // Se usa solo cuando viene todo el texto encriptado id=magento_id
+            let encryptedValue = window.location.search;
+            // Elimina el carácter '?' del inicio
+            if (encryptedValue.startsWith('?')) {
+                id = encryptedValue.substring(1);
+            }
+
+            if (!encryptedValue || encryptedValue.trim() === "") {
                 id = "no_player_id_provided"; 
             }
-          
+
             console.log("ID RECEIVED => " + id);
             if (unityInstance) {
                 unityInstance.SendMessage("ApiManager", "GetPlayerIdEncrypted", id);
